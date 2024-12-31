@@ -27,3 +27,15 @@ Feature: Update Book
         "author": "Updated Author"
       }
       """
+  Scenario: User tries to update the book name
+    Given I am logged in as a user
+    And the database contains a book with ID 1
+    When I send a PUT request  to "/api/books/1" with:
+      """
+      {
+        "id": 1,
+        "title": "Updated Book Title",
+        "author": "Existing Author"
+      }
+      """
+    Then I should  receive a 403 response code
