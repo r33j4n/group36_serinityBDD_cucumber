@@ -1,6 +1,7 @@
 package apitesting.LibMS.stepdefinitions.getBookByIdSteps;
 
 import apitesting.LibMS.models.Book;
+import apitesting.LibMS.utils.AuthenticationUtil;
 import apitesting.LibMS.utils.BookUtil;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -12,12 +13,13 @@ import static net.serenitybdd.rest.SerenityRest.then;
 
 public class GetAlreadyAvailableBookByIdSteps {
     private Book newBook;
-    private Book paramBook = new Book(1,"Kity","author");
+    private Book paramBook = new Book(8,"Juice","author");
     @Steps
     private BookUtil bookUtil = new BookUtil();
 
     @Given("Book is already available in Library System")
     public void book_is_already_available_in_library_system() {
+        AuthenticationUtil.loginAsAdmin();
         newBook = bookUtil.postBook(paramBook);
     }
 

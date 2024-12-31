@@ -20,7 +20,6 @@ public class BookUtil {
                 .contentType(ContentType.JSON).post().getBody().as(Book.class, ObjectMapperType.GSON);
         return newBook;
     }
-
     @Step
     public void getBook(Integer id){
         given()
