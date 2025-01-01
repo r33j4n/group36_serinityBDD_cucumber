@@ -13,4 +13,10 @@ public class AuthenticationSteps {
     public void i_am_logged_in_as_an_admin() {
         AuthenticationUtil.loginAsAdmin();
     }
+
+    @Given("I am not authenticated")
+    public void not_authenticated() {
+        AuthenticationUtil.noAuthentication();
+        System.out.println("Authentication cleared. No credentials will be provided");
+    }
 }

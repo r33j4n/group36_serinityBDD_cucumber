@@ -39,3 +39,15 @@ Feature: Update Book
       }
       """
     Then I should  receive a 403 response code
+
+  Scenario: Admin tries to update the book without author details
+    Given I am logged in as an admin
+    And the database contains a book with ID 1
+    When I send a PUT request to "/api/books/1" with:
+    """
+    {
+      "id": 1,
+      "title":"Updated Book Title"    
+    }
+    """
+    Then I should receive a 400 response  code
