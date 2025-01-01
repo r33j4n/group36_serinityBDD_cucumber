@@ -8,3 +8,9 @@ Feature: Delete Book by ID
     And the database does not contain a book with ID 2
     When I send a DELETE request to "/api/books/2"
     Then I should receive 404 status code
+
+  Scenario: Unauthorized deletion attempt by user
+    Given user logged in
+    And book is already available
+    When user sends delete request with valid ID
+    Then the status code should be 403
