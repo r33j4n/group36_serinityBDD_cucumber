@@ -7,38 +7,33 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import static io.restassured.RestAssured.given;
+import static io.restassured.RestAssured.requestSpecification;
 
 public class ApiRequest {
 
     private static final Logger logger = LoggerFactory.getLogger(GetBookByIdSteps.class);
 
-    public static Response get(String endpoint) {
-        logger.info("Sending GET request to endpoint: {}", endpoint);
+    private static Response sendRequest(String method, String endpoint, String body){
+        logger.info("Sending {} request to endpoint: {} with body: {}", method.toUpperCase(), endpoint, body);
         Response response = given()
-                .header("Content-Type", "application/json")
-                .get(APIConfig.BASE_URI + endpoint);
+                .header("Content-Type","application/json")
+                .body(body != null ? body : "")
+                .request(method.toUpperCase(), APIConfig.BASE_URI + endpoint);
         logger.info("Received response: {}", response.getBody().asString());
         return response;
     }
 
-    public static void post(String endpoint, String body){
-        logger.info("Sending POST request to endpoint: {} with body: {}", endpoint, body);
-        Response response;
-        response = given()
-                .header("Content-Type", "application/json")
-                .body(body)
-                .post(APIConfig.BASE_URI + endpoint);
-        logger.info("Received response: {}", response.getBody().asString());
+    public static Response get(String endpoint) {
+        return sendRequest("GET", endpoint, null);
     }
 
-    public static void put(String endpoint, String body){
-        logger.info("Sending PUT request to endpoint: {} with body: {}", endpoint, body);
-        Response response;
-        response = given()
-                .header("Content-Type", "application/json")
-                .body(body)
-                .put(APIConfig.BASE_URI + endpoint);
-        logger.info("Received response: {}", response.getBody().asString());
+    public static Response post(String endpoint, String body){
+        return sendRequest("POST", endpoint, body);
+    }
+
+
+    public static Response put(String endpoint, String body){
+        return sendRequest("PUT", endpoint, body);
 
     }
 
