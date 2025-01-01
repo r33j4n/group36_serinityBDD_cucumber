@@ -14,3 +14,8 @@ Feature: Retrieve a book by ID
     And Book is already available in Library System
     When I ask for a book with book's ID
     Then I get book as result
+
+  Scenario: Fetch book with Invalid ID format (non-numeric ID)
+    Given I am logged in as a user
+    When I send a GET request to "/api/books/abc"
+    Then I should receive a 400 response codes
