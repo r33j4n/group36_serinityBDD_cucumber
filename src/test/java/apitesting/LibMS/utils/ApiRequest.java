@@ -11,30 +11,36 @@ import static io.restassured.RestAssured.requestSpecification;
 
 public class ApiRequest {
 
+    public static Response response;
+
     private static final Logger logger = LoggerFactory.getLogger(GetBookByIdSteps.class);
 
-    private static Response sendRequest(String method, String endpoint, String body){
+    private static void sendRequest(String method, String endpoint, String body){
         logger.info("Sending {} request to endpoint: {} with body: {}", method.toUpperCase(), endpoint, body);
-        Response response = given()
+        response = given()
                 .header("Content-Type","application/json")
                 .body(body != null ? body : "")
                 .request(method.toUpperCase(), APIConfig.BASE_URI + endpoint);
         logger.info("Received response: {}", response.getBody().asString());
-        return response;
+
     }
 
-    public static Response get(String endpoint) {
-        return sendRequest("GET", endpoint, null);
+    public static void get(String endpoint) {
+         sendRequest("GET", endpoint, null);
     }
 
-    public static Response post(String endpoint, String body){
-        return sendRequest("POST", endpoint, body);
+    public static void post(String endpoint, String body){
+         sendRequest("POST", endpoint, body);
     }
 
 
-    public static Response put(String endpoint, String body){
-        return sendRequest("PUT", endpoint, body);
+    public static void put(String endpoint, String body){
+         sendRequest("PUT", endpoint, body);
 
+    }
+
+    public static void delete(String endpoint){
+        sendRequest("DELETE", endpoint,null);
     }
 
 }

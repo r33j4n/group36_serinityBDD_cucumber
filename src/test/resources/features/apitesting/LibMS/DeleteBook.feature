@@ -7,4 +7,5 @@ Feature: Delete Book by ID
     Given I am logged in as an admin
     And the database does not contain a book with ID 2
     When I send a DELETE request to "/api/books/2"
-    Then I should receive 404 status code
+    Then I should receive a 404 response code
+#    Then I should receive 404 status code

@@ -18,7 +18,7 @@ Feature: Update Book
         "author": "Updated Author"
       }
       """
-    Then I should receive a 200 response  code
+    Then I should receive a 200 response code
     And the response should contain the updated book details:
       """
       {
@@ -38,7 +38,7 @@ Feature: Update Book
         "author": "Existing Author"
       }
       """
-    Then I should  receive a 403 response code
+    Then I should receive a 403 response code
 
   Scenario: Admin tries to update the book without author details
     Given I am logged in as an admin
@@ -50,4 +50,4 @@ Feature: Update Book
       "title":"Updated Book Title"    
     }
     """
-    Then I should receive a 400 response  code
+    Then I should receive a 400 response code
