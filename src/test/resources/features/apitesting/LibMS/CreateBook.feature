@@ -26,3 +26,8 @@ Feature: Create a book
     Given user is logged In
     When the user sends a POST request with author's value as null
     Then response status code should be 400
+
+  Scenario: Return 201 response when ID is missing in the POST request
+    Given user is logged In
+    When the user sends a POST request with id's value as null
+    Then response status code should be 201
