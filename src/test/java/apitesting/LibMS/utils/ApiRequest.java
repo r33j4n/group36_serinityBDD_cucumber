@@ -9,7 +9,8 @@ import org.slf4j.LoggerFactory;
 import static io.restassured.RestAssured.given;
 import static io.restassured.RestAssured.requestSpecification;
 
-public class ApiRequest {
+public class
+ApiRequest {
 
     private static final Logger logger = LoggerFactory.getLogger(GetBookByIdSteps.class);
 
