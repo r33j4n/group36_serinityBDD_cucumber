@@ -11,17 +11,18 @@ import static net.serenitybdd.rest.SerenityRest.then;
 
 public class CreateNewBookWithoutAuthorSteps {
     private BookUtil bookUtil = new BookUtil();
+    private Book newBook = new Book(13,"Without Author",null);
     @Given("user is logged In")
     public void user_is_logged_in(){
-        AuthenticationUtil.loginAsAdmin();
+        AuthenticationUtil.loginAsUser();
     }
     @When("the user sends a POST request with author's value as null")
     public void the_user_sends_a_post_request_with_author_s_value_as_null(){
-        Book newBook = new Book(13,"Without Author",null);
         bookUtil.postBook(newBook);
     }
     @Then("response status code should be 400")
     public void response_status_code_should_be_400(){
         then().statusCode(400);
+        bookUtil.deleteBook(newBook.getId());
     }
 }
