@@ -14,3 +14,9 @@ Feature: Retrieve a book by ID
     And Book is already available in Library System
     When I ask for a book with book's ID
     Then I get book as result
+
+  Scenario: Accessing api with valid user credentials
+    Given I am logged in as a user
+    And the database contains a book with ID 1
+    When I send a GET request to "/api/books/1"
+    Then I should receive a 200 response codes
