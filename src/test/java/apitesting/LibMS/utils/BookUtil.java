@@ -31,7 +31,6 @@ public class BookUtil {
     }
     @Step
     public void deleteBook(Integer id){
-        System.out.println("*****************   id   **************" + id);
         AuthenticationUtil.loginAsUser();
         given()
                 .baseUri(APIConfig.BASE_URI)
