@@ -19,8 +19,8 @@ public class GetAlreadyAvailableBookByIdSteps {
 
     @Given("Book is already available in Library System")
     public void book_is_already_available_in_library_system() {
-        AuthenticationUtil.loginAsAdmin();
         newBook = bookUtil.postBook(paramBook);
+        System.out.println(newBook.getId() + newBook.getTitle()+ newBook);
     }
 
     @When("I ask for a book with book's ID")
@@ -32,5 +32,6 @@ public class GetAlreadyAvailableBookByIdSteps {
     public void i_get_book_as_result() {
         then().body("title", Matchers.equalTo(paramBook.getTitle()));
         then().body("author", Matchers.equalTo(paramBook.getAuthor()));
+        bookUtil.deleteBook(newBook.getId());
     }
 }
