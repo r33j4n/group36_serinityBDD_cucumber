@@ -14,3 +14,9 @@ Feature: Retrieve a book by ID
     And Book is already available in Library System
     When I ask for a book with book's ID
     Then I get book as result
+
+  Scenario: Unauthorized access to retrieve books
+    Given I am not authenticated
+    And the book exists in the library system
+    When I send a GET all books request to "/api/books"
+    Then I should receive 401 response codes

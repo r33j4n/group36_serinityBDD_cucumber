@@ -11,4 +11,8 @@ public class AuthenticationUtil {
     public static void loginAsUser() {
         RestAssured.authentication = RestAssured.basic("user", "password");
     }
+
+    public static void noAuthentication() {
+        RestAssured.authentication = RestAssured.DEFAULT_AUTH;
+    }
 }
