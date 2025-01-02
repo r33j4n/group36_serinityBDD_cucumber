@@ -22,12 +22,12 @@ Feature: Create a book
         "author": "Sagini"
       }
       """
-  Scenario: Return 400 response when author is missing in POST request
+  Scenario: Attempt to create book without author
     Given user is logged In
     When the user sends a POST request with author's value as null
     Then response status code should be 400
 
-  Scenario: Return 201 response when ID is missing in the POST request
+  Scenario: Attempt to create book without ID
     Given user is logged In
     When the user sends a POST request with id's value as null
     Then response status code should be 201
@@ -50,3 +50,23 @@ Feature: Create a book
     }
     """
     Then Response status code should be 400
+
+  Scenario: Attempt to create a book with the same name but a different author
+    Given I am logged in as a user
+    And the database already contains a book with ID 1:
+      """
+      {
+        "id": 1,
+        "title": "Hello world",
+        "author": "Sagini"
+      }
+      """
+    When I send  a POST request to "/api/books" with:
+      """
+      {
+        "id": 1,
+        "title": "Hello world",
+        "author": "Kelvin"
+      }
+      """
+    Then I should receive  200 response code

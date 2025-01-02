@@ -15,8 +15,14 @@ Feature: Delete Book by ID
     When user sends delete request with valid ID
     Then the status code should be 403
 
+  Scenario: Unauthorized deletion attempt
+    Given unauthorized login attempt
+    When send delete request with ID 1
+    Then the status code should be 401
+
   Scenario: Successfully delete a book with a valid ID by admin
     Given I am logged in as an admin
     And book exists in the database with ID 1
     When I send a  DELETE request to "/api/books/1"
     Then I  should receive a 200 response code
+

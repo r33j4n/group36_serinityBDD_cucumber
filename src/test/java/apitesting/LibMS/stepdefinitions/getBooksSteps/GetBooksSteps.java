@@ -1,4 +1,4 @@
-package apitesting.LibMS.stepdefinitions.getBookByIdSteps;
+package apitesting.LibMS.stepdefinitions.getBooksSteps;
 
 import apitesting.LibMS.stepdefinitions.createBook.CreateNewBookSteps;
 import apitesting.LibMS.utils.ApiRequest;
@@ -13,7 +13,6 @@ import org.slf4j.LoggerFactory;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class GetBooksSteps{
-    Response response;
     private static final Logger logger = LoggerFactory.getLogger(CreateNewBookSteps.class);
 
     @Given("I use invalid credentials with username {string} and password {string}")
@@ -24,13 +23,13 @@ public class GetBooksSteps{
 
     @When("I send a GET request to {string} endpoint")
     public void i_send_a_get_request_to_endpoint(String endpoint) {
-        response = ApiRequest.get(endpoint);
+        ApiRequest.get(endpoint);
     }
 
     @Then("the response code should be {int}")
     public void the_response_code_should_be(Integer expectedStatusCode) {
-        logger.info("Actual Status code-->{}, Expected Status Code-->{}", response.statusCode(), expectedStatusCode);
-        assertEquals(expectedStatusCode, response.statusCode(), "Unexpected status code!");
+        logger.info("Actual Status code-->{}, Expected Status Code-->{}", ApiRequest.response.statusCode(), expectedStatusCode);
+        assertEquals(expectedStatusCode, ApiRequest.response.statusCode(), "Unexpected status code!");
 
     }
 
