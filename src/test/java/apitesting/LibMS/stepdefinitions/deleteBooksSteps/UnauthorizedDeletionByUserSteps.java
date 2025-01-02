@@ -7,6 +7,7 @@ import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import net.serenitybdd.annotations.Steps;
 
 import static net.serenitybdd.rest.SerenityRest.then;
 
@@ -15,6 +16,7 @@ public class UnauthorizedDeletionByUserSteps {
     private String title = "Unauthorized Delete Attempt";
     private String author = "user";
     private Book paramBook = new Book(id,title,author);
+    @Steps
     private BookUtil bookUtil = new BookUtil();
     private Book newBook;
     @Given("user logged in")

@@ -22,12 +22,12 @@ Feature: Create a book
         "author": "Sagini"
       }
       """
-  Scenario: Return 400 response when author is missing in POST request
+  Scenario: Attempt to create book without author
     Given user is logged In
     When the user sends a POST request with author's value as null
     Then response status code should be 400
 
-  Scenario: Return 201 response when ID is missing in the POST request
+  Scenario: Attempt to create book without ID
     Given user is logged In
     When the user sends a POST request with id's value as null
     Then response status code should be 201

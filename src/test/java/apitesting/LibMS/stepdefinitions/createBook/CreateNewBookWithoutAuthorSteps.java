@@ -6,11 +6,13 @@ import apitesting.LibMS.utils.BookUtil;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import net.serenitybdd.annotations.Steps;
 
 
 import static net.serenitybdd.rest.SerenityRest.then;
 
 public class CreateNewBookWithoutAuthorSteps {
+    @Steps
     private BookUtil bookUtil = new BookUtil();
     private String title = "Without Author";
     private Book paramBook = new Book(13,title,null);
