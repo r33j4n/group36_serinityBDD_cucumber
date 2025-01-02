@@ -2,7 +2,6 @@ package uitesting.eseatMS.actions;
 
 import net.serenitybdd.annotations.Step;
 import uitesting.eseatMS.pageobjects.HomePageObjects;
-
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 

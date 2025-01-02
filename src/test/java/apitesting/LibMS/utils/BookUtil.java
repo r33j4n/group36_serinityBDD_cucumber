@@ -1,37 +1,26 @@
 package apitesting.LibMS.utils;
 
 import apitesting.LibMS.models.Book;
-import io.cucumber.java.After;
-import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.mapper.ObjectMapperType;
-import io.restassured.response.Response;
 import net.serenitybdd.annotations.Step;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static net.serenitybdd.rest.SerenityRest.given;
 
-
 public class BookUtil {
-    private Book newBook;
-    private static final List<Integer> books = new ArrayList<>();
+    Book newBook;
     @Step
-    public Book postBook(Book book) {
-        this.newBook = given()
+    public Book postBook(Book book){
+         this.newBook = given()
                 .baseUri(APIConfig.BASE_URI)
                 .basePath("/api/books")
                 .body(book)
                 .accept(ContentType.JSON)
                 .contentType(ContentType.JSON).post().getBody().as(Book.class, ObjectMapperType.GSON);
-         if(!books.contains(newBook.getId())){
-             books.add(newBook.getId());
-         }
         return this.newBook;
     }
     @Step
-    public void getBook(Integer id) {
+    public void getBook(Integer id){
         given()
                 .baseUri(APIConfig.BASE_URI)
                 .basePath("/api/books")
@@ -44,21 +33,5 @@ public class BookUtil {
                 .baseUri(APIConfig.BASE_URI)
                 .basePath("/api/books")
                 .delete("/"+id );
-    }
-    @After
-    public void cleanUpBooks(){
-        if(!books.isEmpty()) {
-            AuthenticationUtil.loginAsUser();
-            for (Integer book : books) {
-                deleteBook(book.intValue());
-            }
-        }
-    }
-    @Step
-    public Response getAllBooks() {
-        AuthenticationUtil.loginAsUser();
-        return RestAssured.given()
-                .header("Content-Type", "application/json")
-                .get(APIConfig.BASE_URI + "/api/books");
     }
 }
