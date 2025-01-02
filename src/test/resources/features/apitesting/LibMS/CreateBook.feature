@@ -39,3 +39,23 @@ Feature: Create a book
     {}
     """
     Then I should receive a 400 response code
+
+  Scenario: Attempt to create a book with the same name but a different author
+    Given I am logged in as a user
+    And the database already contains a book with ID 1:
+      """
+      {
+        "id": 1,
+        "title": "Hello world",
+        "author": "Sagini"
+      }
+      """
+    When I send  a POST request to "/api/books" with:
+      """
+      {
+        "id": 1,
+        "title": "Hello world",
+        "author": "Kelvin"
+      }
+      """
+    Then I should receive  200 response code
