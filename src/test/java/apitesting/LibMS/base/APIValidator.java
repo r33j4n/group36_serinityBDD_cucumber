@@ -1,7 +1,4 @@
 package apitesting.LibMS.base;
-import io.restassured.RestAssured;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import io.restassured.RestAssured;
 import org.slf4j.Logger;

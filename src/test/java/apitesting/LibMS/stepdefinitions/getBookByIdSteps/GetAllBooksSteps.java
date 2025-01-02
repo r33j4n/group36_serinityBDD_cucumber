@@ -3,7 +3,6 @@ package apitesting.LibMS.stepdefinitions.getBookByIdSteps;
 import apitesting.LibMS.models.Book;
 import apitesting.LibMS.utils.APIConfig;
 import apitesting.LibMS.utils.AuthenticationUtil;
-import apitesting.LibMS.utils.BookUtil;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;

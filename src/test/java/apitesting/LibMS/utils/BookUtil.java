@@ -5,8 +5,6 @@ import io.cucumber.java.After;
 import io.restassured.http.ContentType;
 import io.restassured.mapper.ObjectMapperType;
 import net.serenitybdd.annotations.Step;
-import org.junit.AfterClass;
-import org.junit.jupiter.api.AfterAll;
 
 import java.util.ArrayList;
 import java.util.List;
