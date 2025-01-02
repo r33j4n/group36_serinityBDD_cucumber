@@ -4,13 +4,13 @@ Feature: Create a book
   So that it is stored in the library system
 
   Scenario: Successfully create a book with a id
-    Given the user is authenticated with username "user" and password "password"
+    Given I am logged in as a user
     When I send a POST request to "/api/books" with:
       """
       {
         "id": 17,
-        "title": "Hello world",
-        "author": "Sagini"
+        "title": "Playing it my Way",
+        "author": "Thareejan"
       }
       """
     Then I should receive a 201 response code
@@ -18,8 +18,8 @@ Feature: Create a book
       """
       {
         "id": 17,
-        "title": "Hello world",
-        "author": "Sagini"
+        "title": "Playing it my Way",
+        "author": "Thareejan"
       }
       """
   Scenario: Attempt to create book without author
@@ -50,7 +50,7 @@ Feature: Create a book
         "author": "Sagini"
       }
       """
-    When I send a POST request to "/api/books" with:
+    When I send  a POST request to "/api/books" with:
       """
       {
         "id": 1,
@@ -58,4 +58,4 @@ Feature: Create a book
         "author": "Kelvin"
       }
       """
-    Then I should receive a 200 response code
+    Then I should receive  201 response code
