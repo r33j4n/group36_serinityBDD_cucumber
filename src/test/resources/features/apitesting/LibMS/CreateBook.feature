@@ -31,3 +31,11 @@ Feature: Create a book
     Given user is logged In
     When the user sends a POST request with id's value as null
     Then response status code should be 201
+
+  Scenario: Attempt to create a book with an empty body
+    Given I am logged in as an admin
+    When I send a POST request to "/api/books" with:
+    """
+    {}
+    """
+    Then I should receive a 400 response code
