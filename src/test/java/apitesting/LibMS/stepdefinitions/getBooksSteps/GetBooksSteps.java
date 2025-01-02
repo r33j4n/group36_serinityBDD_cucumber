@@ -1,4 +1,4 @@
-package apitesting.LibMS.stepdefinitions.getBookByIdSteps;
+package apitesting.LibMS.stepdefinitions.getBooksSteps;
 
 import apitesting.LibMS.stepdefinitions.createBook.CreateNewBookSteps;
 import apitesting.LibMS.utils.ApiRequest;
