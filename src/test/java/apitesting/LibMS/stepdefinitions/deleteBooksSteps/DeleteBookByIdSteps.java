@@ -15,20 +15,15 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class DeleteBookByIdSteps {
 
     private static final Logger logger = LoggerFactory.getLogger(GetBookByIdSteps.class);
-    private Response response;
     @When("I send a DELETE request to {string}")
     public void iSendADELETERequestTo(String endpoint) {
-        logger.info("Sending requets to delete a book");
-        response = given()
-                .header("Content-Type", "application/json")
-                .delete(APIConfig.BASE_URI + endpoint);
-
+        ApiRequest.delete(endpoint);
     }
 
     @Then("I should receive {int} status code")
     public void iShouldReceiveStatusCode(int expectedStatusCode) {
         logger.info("Validating response status code.....");
-        logger.info("Expected Status Code: {}, Actual Status Code: {}", expectedStatusCode, response.statusCode());
-        assertEquals(expectedStatusCode, response.statusCode(), "Unexpected status code!");
+        logger.info("Expected Status Code: {}, Actual Status Code: {}", expectedStatusCode, ApiRequest.response.statusCode());
+        assertEquals(expectedStatusCode, ApiRequest.response.statusCode(), "Unexpected status code!");
     }
 }
