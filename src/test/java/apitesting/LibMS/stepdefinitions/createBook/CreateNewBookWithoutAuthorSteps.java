@@ -8,7 +8,6 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import net.serenitybdd.annotations.Steps;
 
-
 import static net.serenitybdd.rest.SerenityRest.then;
 
 public class CreateNewBookWithoutAuthorSteps {
