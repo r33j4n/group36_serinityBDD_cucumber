@@ -1,21 +1,10 @@
 package apitesting.LibMS.stepdefinitions.createBook;
 
-import apitesting.LibMS.models.Book;
 import apitesting.LibMS.utils.APIConfig;
-import apitesting.LibMS.utils.AuthenticationUtil;
 import apitesting.LibMS.utils.BookUtil;
-import io.cucumber.java.en.And;
-
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import io.restassured.http.ContentType;
-import io.restassured.mapper.ObjectMapperType;
-import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
-import net.serenitybdd.rest.SerenityRest;
-
-import java.util.List;
-import java.util.Map;
 
 import static io.restassured.RestAssured.given;
 
