@@ -17,9 +17,9 @@ Feature: Retrieve a book by ID
 
   Scenario: Unauthorized access to retrieve books
     Given I am not authenticated
-    And the book exists in the library system
-    When I send a GET all books request to "/api/books"
-    Then I should receive 401 response codes
+    And a book exists in the database with ID 1 
+    When I send a GET request to "/api/books"
+    Then I should receive a 401 response code
 
   Scenario: Fetch book with Invalid ID format (non-numeric ID)
     Given I am logged in as a user
@@ -28,6 +28,6 @@ Feature: Retrieve a book by ID
 
   Scenario: Accessing api with valid user credentials
     Given I am logged in as a user
-    And the database contains a book with ID 1
+    And a book exists in the database with ID 1
     When I send a GET request to "/api/books/1"
     Then I should receive a 200 response codes
