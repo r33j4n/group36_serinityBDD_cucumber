@@ -50,7 +50,7 @@ Feature: Create a book
         "author": "Sagini"
       }
       """
-    When I send  a POST request to "/api/books" with:
+    When I send a POST request to "/api/books" with:
       """
       {
         "id": 1,
@@ -58,4 +58,4 @@ Feature: Create a book
         "author": "Kelvin"
       }
       """
-    Then I should receive  200 response code
+    Then I should receive a 200 response code

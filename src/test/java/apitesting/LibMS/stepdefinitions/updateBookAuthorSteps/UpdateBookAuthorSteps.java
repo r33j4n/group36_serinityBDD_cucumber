@@ -36,13 +36,6 @@ public class UpdateBookAuthorSteps {
         logger.info("Received response: {}", ApiRequest.response.getBody().asString());
     }
 
-    @Then("I should receive a {int} response  code")
-    public void i_should_receive_a_response_code(int expectedStatusCode) {
-        logger.info("Validating response status code...");
-        logger.info("Expected Status Code: {}, Actual Status Code: {}", expectedStatusCode, ApiRequest.response.statusCode());
-        assertEquals(expectedStatusCode, ApiRequest.response.statusCode(), "Unexpected status code!");
-    }
-
     @Then("the response should contain the updated book details:")
     public void the_response_should_contain_the_updated_book_details(String expectedResponseBody) {
         logger.info("Validating response body...");
