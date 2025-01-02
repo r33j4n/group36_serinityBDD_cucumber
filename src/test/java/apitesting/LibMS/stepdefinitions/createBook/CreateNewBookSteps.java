@@ -1,32 +1,37 @@
 package apitesting.LibMS.stepdefinitions.createBook;
 
-import apitesting.LibMS.utils.APIConfig;
 import apitesting.LibMS.utils.ApiRequest;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.cucumber.java.en.Given;
+import io.cucumber.java.AfterAll;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import io.restassured.RestAssured;
+import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import static io.restassured.RestAssured.given;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class CreateNewBookSteps {
     private static final Logger logger = LoggerFactory.getLogger(CreateNewBookSteps.class);
-    @Given("the user is authenticated with username {string} and password {string}")
-    public void the_user_is_authenticated_with_username_and_password(String username, String password) {
-        RestAssured.authentication = RestAssured.basic(username, password);
-        logger.info("Authenticated with username: {} and password: {}", username, "********");
-    }
+    Response response;
+    static String deleteEndpoint;
+
     @When("I send a POST request to {string} with:")
     public void i_send_a_POST_request_to_with(String endpoint, String body) {
-        ApiRequest.post(endpoint,body);
+        ApiRequest.post(endpoint, body);
+        this.response=ApiRequest.response;
+        if (ApiRequest.response.statusCode() == 201) {
+            String responseBody = ApiRequest.response.getBody().asString();
+            JsonPath jsonPath = new JsonPath(responseBody);
+            int createdBookId = jsonPath.getInt("id"); // Assuming the response contains the book ID
+            this.deleteEndpoint = endpoint + "/" + createdBookId;
+        } else {
+            System.err.println("POST request failed. Status Code: " + ApiRequest.response.statusCode());
+        }
     }
-    @Then("I should receive a {int} response code")
+    @When("I should receive a {int} response code")
     public void i_should_receive_a_response_code(int expectedStatusCode) {
         logger.info("Validating response status code...");
         logger.info("Expected Status Code: {}, Actual Status Code: {}", expectedStatusCode, ApiRequest.response.statusCode());
@@ -50,6 +55,11 @@ public class CreateNewBookSteps {
             logger.error("Error parsing or comparing JSON", e);
             throw new RuntimeException("Error validating JSON response", e);
         }
+    }
+
+    @AfterAll
+    public static void after_all() {
+        ApiRequest.delete(deleteEndpoint);
     }
 }
 
