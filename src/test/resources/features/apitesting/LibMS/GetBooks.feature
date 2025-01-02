@@ -8,3 +8,8 @@ Feature: Fetching all books
     When I send a GET request to "/api/books/" endpoint
     Then the response code should be 401
 
+  Scenario: Database have no books
+    Given User is logged in
+    And I ask for all books
+    When The database does not contain any books
+    Then I should get empty array with 200 status code
