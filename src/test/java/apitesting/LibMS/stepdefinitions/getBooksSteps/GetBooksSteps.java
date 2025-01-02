@@ -26,11 +26,5 @@ public class GetBooksSteps{
         ApiRequest.get(endpoint);
     }
 
-    @Then("the response code should be {int}")
-    public void the_response_code_should_be(Integer expectedStatusCode) {
-        logger.info("Actual Status code-->{}, Expected Status Code-->{}", ApiRequest.response.statusCode(), expectedStatusCode);
-        assertEquals(expectedStatusCode, ApiRequest.response.statusCode(), "Unexpected status code!");
-
-    }
 
 }

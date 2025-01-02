@@ -20,10 +20,4 @@ public class DeleteBookByIdSteps {
         ApiRequest.delete(endpoint);
     }
 
-    @Then("I should receive {int} status code")
-    public void iShouldReceiveStatusCode(int expectedStatusCode) {
-        logger.info("Validating response status code.....");
-        logger.info("Expected Status Code: {}, Actual Status Code: {}", expectedStatusCode, ApiRequest.response.statusCode());
-        assertEquals(expectedStatusCode, ApiRequest.response.statusCode(), "Unexpected status code!");
-    }
 }

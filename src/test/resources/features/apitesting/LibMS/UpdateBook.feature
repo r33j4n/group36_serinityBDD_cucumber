@@ -18,7 +18,7 @@ Feature: Update Book
         "author": "Updated Author"
       }
       """
-    Then I should receive a 200 response  code
+    Then I should receive a 200 response code
     And the response should contain the updated book details:
       """
       {
@@ -63,4 +63,4 @@ Feature: Update Book
       "title":"Updated Book Title"
     }
     """
-    Then I should receive a 400 response  code
+    Then I should receive a 400 response code

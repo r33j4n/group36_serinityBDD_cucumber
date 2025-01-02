@@ -23,17 +23,4 @@ public class GetBookByIdSteps {
         }
     }
 
-    @When("I send a GET request to {string}")
-    public void i_send_a_GET_request_to(String endpoint) {
-        ApiRequest.get(endpoint);
-    }
-    @Then("I should receive a {int} response codes")
-    public void i_should_receive_a_response_code(int expectedStatusCode) {
-        logger.info("Validating response status code...");
-        logger.info("Expected Status Code: {}, Actual Status Code: {}", expectedStatusCode, ApiRequest.response.statusCode());
-        assertEquals(expectedStatusCode, ApiRequest.response.statusCode(), "Unexpected status code!");
-    }
-
-
-
 }

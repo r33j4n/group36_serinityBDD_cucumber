@@ -25,16 +25,4 @@ public class CreateBookWithSameNameDifferentAuthorSteps {
         }
     }
 
-    @When("I send  a POST request to {string} with:")
-    public void i_send_a_POST_request_to_with(String endpoint, String body) {
-        ApiRequest.post(endpoint,body);
-    }
-
-    @Then("I should receive  {int} response code")
-    public void i_should_receive_a_response_code(int expectedStatusCode) {
-        logger.info("Validating response status code...");
-        logger.info("Expected Status Code: {}, Actual Status Code: {}", expectedStatusCode, ApiRequest.response.statusCode());
-        assertEquals(expectedStatusCode, ApiRequest.response.statusCode(), "Unexpected status code!");
-    }
-
 }
