@@ -42,20 +42,20 @@ Feature: Create a book
 
   Scenario: Attempt to create a book with the same name but a different author
     Given I am logged in as a user
-    And the database already contains a book with ID 1:
+    And I send a POST request to "/api/books" with:
       """
       {
         "id": 1,
-        "title": "Hello world",
-        "author": "Sagini"
+        "title": "Test Book",
+        "author": "Varaki"
       }
       """
-    When I send  a POST request to "/api/books" with:
+    When I send a POST request to "/api/books" with:
       """
       {
         "id": 1,
-        "title": "Hello world",
-        "author": "Kelvin"
+        "title": "Test Book",
+        "author": "Vakeesan V."
       }
       """
-    Then I should receive  201 response code
+    Then I should receive a 201 response code
