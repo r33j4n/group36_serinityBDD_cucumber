@@ -14,3 +14,8 @@ Feature: Delete Book by ID
     And book is already available
     When user sends delete request with valid ID
     Then the status code should be 403
+
+  Scenario: Unauthorized deletion attempt
+    Given unauthorized login attempt
+    When send delete request with ID 1
+    Then the status code should be 401

@@ -25,18 +25,13 @@ public class BookUtil {
                 .baseUri(APIConfig.BASE_URI)
                 .basePath("/api/books")
                 .when()
-                .get("/" + id)
-                .then()
-                .statusCode(200);
+                .get("/" + id);
     }
     @Step
     public void deleteBook(Integer id){
-        AuthenticationUtil.loginAsUser();
         given()
                 .baseUri(APIConfig.BASE_URI)
                 .basePath("/api/books")
-                .delete("/"+id )
-                .then()
-                .statusCode(200);
+                .delete("/"+id );
     }
 }

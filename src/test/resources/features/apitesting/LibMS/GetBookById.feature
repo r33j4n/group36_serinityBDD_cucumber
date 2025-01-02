@@ -9,8 +9,8 @@ Feature: Retrieve a book by ID
     When I send a GET request to "/api/books/888"
     Then I should receive a 404 response codes
 
-  Scenario: Successfully fetch already available book
-    Given I am logged in as an admin
+  Scenario: Successfully fetch already available book by user
+    Given user has logged in
     And Book is already available in Library System
     When I ask for a book with book's ID
     Then I get book as result
