@@ -9,13 +9,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import io.restassured.response.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
-import static io.restassured.RestAssured.given;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class UpdateBookAuthorSteps {
@@ -26,13 +24,13 @@ public class UpdateBookAuthorSteps {
 
     @Given("a book exists in the database with ID {int}")
     public void a_book_exists_in_the_database_with_ID(int id) {
-        ApiRequest.get("/api/books/" + id);
+        ApiRequest.get(APIConfig.ROOT_URI + id);
 
         if (ApiRequest.response.statusCode() == 404) {
             // If the book doesn't exist, create it
             String bookDetails = String.format(
                     "{\"id\": %d, \"title\": \"Book Title1\", \"author\": \" Author1\"}", id);
-            ApiRequest.post("/api/books", bookDetails);
+            ApiRequest.post(APIConfig.ROOT_URI, bookDetails);
         }
     }
 
@@ -64,12 +62,19 @@ public class UpdateBookAuthorSteps {
     }
 
     @When("I update book with non existing id:")
-    public void iUpdateBookWithNonExistingId(String body) {
+    public void i_update_book_with_non_existing_id(String body) {
         ProvideNonExistBookID.nonExistingBookId = nonExistingBookId;
-//        ProvideNonExistBookID.provideNonExistBookID();
-//         this.nonExistingBookId = ProvideNonExistBookID.nonExistingBookId;
         ApiRequest.put("/api/books/" + nonExistingBookId, body);
     }
 
+    @When("I send a PUT request with new author name with:")
+    public void i_send_a_PUT_request_with_new_author_name_with(String bodyTemplate) {
+        int lastCreatedBookId = CreateNewBookSteps.createdBooksIDs.get(CreateNewBookSteps.createdBooksIDs.size() - 1);
+        String updatedBody = bodyTemplate.replace("\"id\": 100", "\"id\": " + lastCreatedBookId);
+        String endpoint = APIConfig.ROOT_URI+ lastCreatedBookId;
+        ApiRequest.put(endpoint, updatedBody);
 
+        logger.info("Sent PUT request to update book with ID: {}", lastCreatedBookId);
+        logger.info("Received response: {}", ApiRequest.response.getBody().asString());
+    }
 }

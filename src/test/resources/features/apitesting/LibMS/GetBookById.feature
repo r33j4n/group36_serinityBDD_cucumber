@@ -9,10 +9,10 @@ Feature: Retrieve a book by ID
     Then I should receive a 404 response code
 
   Scenario: Successfully fetch already available book by user
-    Given user has logged in
-    And Book is already available in Library System
-    When I ask for a book with book's ID
-    Then I get book as result
+    Given I am logged in as a user
+    And a book exists in the database with ID 1
+    When I send a GET request to "/api/books/1" endpoint
+    Then I should receive a 201 response code with title as "Book Title1" and author as "Author1"
 
   Scenario: Unauthorized access to retrieve books
     Given I am not authenticated
@@ -30,3 +30,22 @@ Feature: Retrieve a book by ID
     And a book exists in the database with ID 1
     When I send a GET request to "/api/books/1" endpoint
     Then I should receive a 200 response code
+
+  Scenario: Successfully fetch already available book by admin
+    Given I am logged in as an admin
+    And Book with ID 1 is already available in Library System
+    When I ask for a book with book's ID 1
+    Then I get that book as result
+      """
+      {
+        "id": 1,
+        "title": "A book",
+        "author": "Piruthuvi"
+      }
+      """
+
+  Scenario: Get non-existing book by user
+    Given I am logged in as an admin
+    And I send a DELETE request to "/api/books/1"
+    When I send a GET request to "/api/books/1" endpoint
+    Then I should receive a 404 response code
