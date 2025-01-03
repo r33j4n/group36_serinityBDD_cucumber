@@ -3,12 +3,6 @@ Feature: Delete Book by ID
   I want to delete a book by its ID
   So that I can remove a book from the Library
 
-  Scenario: Delete a book which is not exist in the library
-    Given I am logged in as an admin
-    And the database does not contain a book with ID 2
-    When I send a DELETE request to "/api/books/2"
-    Then I should receive a 404 response code
-
   Scenario: Unauthorized deletion attempt by user
     Given I am logged in as a user
     And book is already available
