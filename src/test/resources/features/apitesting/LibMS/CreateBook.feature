@@ -53,6 +53,17 @@ Feature: Create a book
     """
     Then I should receive a 400 response code
 
+  Scenario: Create book without title
+    Given User is logged in
+    When I create a new book request to "/api/books" without title
+    """
+    {
+      "id": 160,
+      "author": "Piruthuvi"
+    }
+    """
+    Then Response status code should be 400
+
   Scenario: Attempt to create a book with the same name but a different author
     Given I am logged in as a user
     And I send a POST request to "/api/books" with:
@@ -72,3 +83,13 @@ Feature: Create a book
       }
       """
     Then I should receive a 201 response code
+
+  Scenario: Create book with ID only
+    Given User is logged in
+    When I create a new book request to "/api/books" with ID only
+    """
+    {
+      "id": 160
+    }
+    """
+    Then Response status code must be 400

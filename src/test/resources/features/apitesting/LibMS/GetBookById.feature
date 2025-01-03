@@ -30,3 +30,16 @@ Feature: Retrieve a book by ID
     And a book exists in the database with ID 1
     When I send a GET request to "/api/books/1" endpoint
     Then I should receive a 200 response code
+
+  Scenario: Successfully fetch already available book by admin
+    Given I am logged in as an admin
+    And Book with ID 1 is already available in Library System
+    When I ask for a book with book's ID 1
+    Then I get that book as result
+      """
+      {
+        "id": 1,
+        "title": "A book",
+        "author": "Piruthuvi"
+      }
+      """
