@@ -80,3 +80,12 @@ Feature: Create a book
     }
     """
     Then Response status code must be 400
+
+  Scenario: Check database has one or more books
+    Given User is logged in
+    And The database contains books with:
+        | id | title | author |
+        | 1  | Test Book 1 | Thushan |
+        | 2  | Test Book 2 | Thushan |
+    When I ask for all books
+    Then I should receive a 200 response code
