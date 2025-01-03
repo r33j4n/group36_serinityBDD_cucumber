@@ -15,7 +15,7 @@ public class ProvideNonExistBookID {
     public static final String GET_URI = "http://localhost:7081/api/books";
     public static Response response;
 
-    public void provideNonExistBookID() {
+    public static void provideNonExistBookID() {
         GetBookByIdSteps.existingBookIds = RestAssured
                 .given()
                 .get(GET_URI)
