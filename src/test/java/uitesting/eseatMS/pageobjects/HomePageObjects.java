@@ -21,6 +21,9 @@ public class HomePageObjects extends PageObject {
     @FindBy(css = "button.btn.btn-success.btn-bus-main.full-width") // Locates the "Search Buses" button by its CSS classes
     private WebElementFacade searchBusesButton;
 
+    @FindBy(css = "a.btn.btn-success.btn-bus-main")
+    private WebElementFacade timetableButton;
+
     public void clickSendTicket(){
         $(By.linkText("Send Ticket")).click();
     }
@@ -32,6 +35,7 @@ public class HomePageObjects extends PageObject {
     public void typeToLocation(String location) {
         toLocationInput.type(location);
     }
+
     public void enterTravelDate(String date) {
         travelDateInput.clear();
         travelDateInput.type(date);
@@ -39,5 +43,9 @@ public class HomePageObjects extends PageObject {
 
     public void clickSearchBusesButton(){
         searchBusesButton.click();
+    }
+    public void clickSearchBusTimetableButton(){
+        timetableButton.click();
+//        timetableButton.waitUntilVisible();
     }
 }
