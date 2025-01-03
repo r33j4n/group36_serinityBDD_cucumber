@@ -82,3 +82,23 @@ Feature: Update Book
       }
       """
     Then I should receive a 403 response code
+
+  Scenario: Updating Book with Mismatching Book Id
+    Given I am logged in as an admin
+    And I send a POST request to "/api/books" with:
+       """
+      {
+        "id": 200,
+        "title": "Harry Potter",
+        "author": "J.K Rowling"
+      }
+      """
+    When I update book with non existing id:
+     """
+      {
+        "id": 201,
+        "title": "ID Mismatch Book",
+        "author": "Updated Author"
+      }
+      """
+    Then I should receive a 400 response code
