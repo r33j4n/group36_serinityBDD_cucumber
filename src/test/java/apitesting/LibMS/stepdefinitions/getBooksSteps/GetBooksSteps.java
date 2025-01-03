@@ -25,6 +25,4 @@ public class GetBooksSteps{
     public void i_send_a_get_request_to_endpoint(String endpoint) {
         ApiRequest.get(endpoint);
     }
-
-
 }

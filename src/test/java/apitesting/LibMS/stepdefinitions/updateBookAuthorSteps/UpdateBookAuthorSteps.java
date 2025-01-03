@@ -26,13 +26,13 @@ public class UpdateBookAuthorSteps {
 
     @Given("a book exists in the database with ID {int}")
     public void a_book_exists_in_the_database_with_ID(int id) {
-        ApiRequest.get("/api/books/" + id);
+        ApiRequest.get(APIConfig.ROOT_URI + id);
 
         if (ApiRequest.response.statusCode() == 404) {
             // If the book doesn't exist, create it
             String bookDetails = String.format(
                     "{\"id\": %d, \"title\": \"Book Title1\", \"author\": \" Author1\"}", id);
-            ApiRequest.post("/api/books", bookDetails);
+            ApiRequest.post(APIConfig.ROOT_URI, bookDetails);
         }
     }
 
@@ -42,32 +42,13 @@ public class UpdateBookAuthorSteps {
         logger.info("Received response: {}", ApiRequest.response.getBody().asString());
     }
 
-    @Then("the response should contain the updated book details:")
-    public void the_response_should_contain_the_updated_book_details(String expectedResponseBody) {
-        logger.info("Validating response body...");
-
-        try {
-            ObjectMapper objectMapper = new ObjectMapper();
-            JsonNode expectedJson = objectMapper.readTree(expectedResponseBody.trim());
-            JsonNode actualJson = objectMapper.readTree(ApiRequest.response.getBody().asString().trim());
-            String prettyExpected = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(expectedJson);
-            String prettyActual = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(actualJson);
-
-            logger.info("Expected Response Body:\n{}", prettyExpected);
-            logger.info("Actual Response Body:\n{}", prettyActual);
-
-            assertEquals(prettyExpected, prettyActual, "Response body does not match expected!");
-        } catch (Exception e) {
-            logger.error("Error parsing or comparing JSON", e);
-            throw new RuntimeException("Error validating JSON response", e);
-        }
-    }
     @When("I send a PUT request with new author name with:")
     public void i_send_a_PUT_request_with_new_author_name_with(String bodyTemplate) {
         int lastCreatedBookId = CreateNewBookSteps.createdBooksIDs.get(CreateNewBookSteps.createdBooksIDs.size() - 1);
         String updatedBody = bodyTemplate.replace("\"id\": 100", "\"id\": " + lastCreatedBookId);
-        String endpoint = "/api/books/" + lastCreatedBookId;
+        String endpoint = APIConfig.ROOT_URI+ lastCreatedBookId;
         ApiRequest.put(endpoint, updatedBody);
+
         logger.info("Sent PUT request to update book with ID: {}", lastCreatedBookId);
         logger.info("Received response: {}", ApiRequest.response.getBody().asString());
     }
@@ -75,10 +56,6 @@ public class UpdateBookAuthorSteps {
     @When("I update book with non existing id:")
     public void iUpdateBookWithNonExistingId(String body) {
         ProvideNonExistBookID.nonExistingBookId = nonExistingBookId;
-//        ProvideNonExistBookID.provideNonExistBookID();
-//         this.nonExistingBookId = ProvideNonExistBookID.nonExistingBookId;
         ApiRequest.put("/api/books/" + nonExistingBookId, body);
     }
-
-
 }
