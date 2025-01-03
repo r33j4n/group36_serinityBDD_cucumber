@@ -89,3 +89,22 @@ Feature: Update Book
       }
       """
     Then I should receive a 400 response code
+
+  Scenario: Admin tries to update the book name and Book Author Name
+    Given I am logged in as an admin
+    And   I send a POST request to "/api/books" with:
+     """
+      {
+        "title": "Book Name",
+        "author": "Thushan"
+      }
+      """
+    When I send a PUT request with new author name with:
+      """
+      {
+        "id": 100,
+        "title": "Updated Book Name",
+        "author": "Thushan D. Fernando"
+      }
+      """
+    Then I should receive a 200 response code
