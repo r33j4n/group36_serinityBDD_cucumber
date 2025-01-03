@@ -43,3 +43,7 @@ Feature: Retrieve a book by ID
         "author": "Piruthuvi"
       }
       """
+  Scenario: Unauthorized access to GET book by ID endpoint
+    Given no credentials
+    When send GET book request with ID 1
+    Then should receive 401
