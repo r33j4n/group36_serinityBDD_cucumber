@@ -7,8 +7,6 @@ import io.restassured.response.Response;
 import java.util.List;
 import java.util.Random;
 
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
-
 public class ProvideNonExistBookID {
     public static List<Integer> existingBookIds;
     public static int nonExistingBookId;

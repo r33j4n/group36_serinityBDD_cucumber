@@ -4,7 +4,7 @@ public class Book {
     private Integer id;
     private String title;
     private String author;
-
+    public Book(){}
     public Book(Integer id, String title, String author) {
         this.id = id;
         this.title = title;
@@ -38,5 +38,13 @@ public class Book {
 
     public void setId(final Integer id) {
         this.id = id;
+    }
+    @Override
+    public String toString(){
+        return " { " +
+                "\"id\": " + this.id + ",\n" +
+                "\"title\": \"" + this.title + "\",\n" +
+                "\"author\": \"" + this.author + "\"\n" +
+                "}";
     }
 }
