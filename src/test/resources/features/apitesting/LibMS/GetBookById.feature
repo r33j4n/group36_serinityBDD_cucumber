@@ -5,9 +5,8 @@ Feature: Retrieve a book by ID
 
   Scenario: Book not found with the given ID
     Given I am logged in as an admin
-    And the database does not contain a book with ID 888
-    When I send a GET request to "/api/books/888"
-    Then I should receive a 404 response codes
+    When I send a GET request with non existing Book Id
+    Then I should receive a 404 response code
 
   Scenario: Successfully fetch already available book by user
     Given user has logged in
@@ -17,17 +16,17 @@ Feature: Retrieve a book by ID
 
   Scenario: Unauthorized access to retrieve books
     Given I am not authenticated
-    And the book exists in the library system
-    When I send a GET all books request to "/api/books"
-    Then I should receive 401 response codes
+    And a book exists in the database with ID 1
+    When I send a GET request to "/api/books" endpoint
+    Then I should receive a 401 response code
 
   Scenario: Fetch book with Invalid ID format (non-numeric ID)
     Given I am logged in as a user
-    When I send a GET request to "/api/books/abc"
-    Then I should receive a 400 response codes
+    When I send a GET request to "/api/books/abc" endpoint
+    Then I should receive a 400 response code
 
   Scenario: Accessing api with valid user credentials
     Given I am logged in as a user
-    And the database contains a book with ID 1
-    When I send a GET request to "/api/books/1"
-    Then I should receive a 200 response codes
+    And a book exists in the database with ID 1
+    When I send a GET request to "/api/books/1" endpoint
+    Then I should receive a 200 response code
