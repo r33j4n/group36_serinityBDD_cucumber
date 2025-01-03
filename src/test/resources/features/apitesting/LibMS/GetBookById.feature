@@ -31,3 +31,16 @@ Feature: Retrieve a book by ID
     And the database contains a book with ID 1
     When I send a GET request to "/api/books/1"
     Then I should receive a 200 response codes
+
+  Scenario: Successfully fetch already available book by admin
+    Given I am logged in as an admin
+    And Book with ID 1 is already available in Library System
+    When I ask for a book with book's ID 1
+    Then I get that book as result
+      """
+      {
+        "id": 1,
+        "title": "A book",
+        "author": "Piruthuvi"
+      }
+      """
