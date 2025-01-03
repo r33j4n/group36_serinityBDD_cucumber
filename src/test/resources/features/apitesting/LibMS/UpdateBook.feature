@@ -63,3 +63,22 @@ Feature: Update Book
     }
     """
     Then I should receive a 400 response code
+
+  Scenario: User tries to update the book name and Book Author Name
+    Given I am logged in as a user
+    And   I send a POST request to "/api/books" with:
+     """
+      {
+        "title": "Test Book User Update",
+        "author": "Previous Author"
+      }
+      """
+    When I send a PUT request with new author name with:
+      """
+      {
+        "id": 100,
+        "title": "User Updated ",
+        "author": "Updated Author"
+      }
+      """
+    Then I should receive a 403 response code
