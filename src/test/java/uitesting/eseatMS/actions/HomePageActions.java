@@ -24,14 +24,11 @@ public class HomePageActions {
     }
 
     @Step
-<<<<<<< HEAD
     public void navigateTimetablePage() {
         homePageObjects.clickSearchBusTimetableButton();
     }
 
     @Step
-    public void clickSearchBusesButton() {
-=======
     public void clickContactUsButton(){
         homePageObjects.clickContactUs();
     }
@@ -47,7 +44,6 @@ public class HomePageActions {
 
     @Step
     public void clickSearchBusesButton(){
->>>>>>> upstream/master
         homePageObjects.clickSearchBusesButton();
     }
 

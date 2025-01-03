@@ -12,7 +12,7 @@ Feature: Retrieve a book by ID
     Given I am logged in as a user
     And a book exists in the database with ID 1
     When I send a GET request to "/api/books/1" endpoint
-    Then I should receive a 201 response code with title as "Book Title1" and author as "Author1"
+    Then I should receive a 200 response code with title as "Book Title1" and author as "Author1"
 
   Scenario: Unauthorized access to retrieve books
     Given I am not authenticated
@@ -33,16 +33,17 @@ Feature: Retrieve a book by ID
 
   Scenario: Successfully fetch already available book by admin
     Given I am logged in as an admin
-    And Book with ID 1 is already available in Library System
-    When I ask for a book with book's ID 1
-    Then I get that book as result
-      """
-      {
-        "id": 1,
-        "title": "A book",
-        "author": "Piruthuvi"
-      }
-      """
+    And book is already available
+    """
+        {
+          "id": 1,
+          "title": "Fetch book by admin",
+          "author": "Piruthuvi"
+        }
+    """
+    When I ask for a book with book's ID
+    Then I should receive a 200 response code with title as "Fetch book by admin" and author as "Piruthuvi"
+
   Scenario: Unauthorized access to GET book by ID endpoint
     Given no credentials
     When send GET book request with ID 1
