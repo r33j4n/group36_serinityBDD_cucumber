@@ -4,6 +4,10 @@ import net.serenitybdd.annotations.Step;
 import uitesting.eseatMS.pageobjects.HomePageObjects;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import net.serenitybdd.core.steps.UIInteractionSteps;
+import org.openqa.selenium.By;
+
+import static net.thucydides.core.webdriver.ThucydidesWebDriverSupport.getDriver;
 
 public class HomePageActions {
     HomePageObjects homePageObjects;
@@ -15,6 +19,20 @@ public class HomePageActions {
     @Step
     public void clickSendTicketButton(){
         homePageObjects.clickSendTicket();
+    }
+
+    @Step
+    public void clickContactUsButton(){
+        homePageObjects.clickContactUs();
+    }
+
+    @Step
+    public void clickWhatsappIcon(){
+        homePageObjects.clickWhatsappIcon();
+    }
+
+    public String getCurrentUrl() {
+        return getDriver().getCurrentUrl();
     }
 
     @Step
