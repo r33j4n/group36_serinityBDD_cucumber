@@ -70,3 +70,13 @@ Feature: Create a book
       }
       """
     Then I should receive  200 response code
+
+  Scenario: Create book with ID only
+    Given User is logged in
+    When I create a new book request to "/api/books" with ID only
+    """
+    {
+      "id": 160
+    }
+    """
+    Then Response status code must be 400
