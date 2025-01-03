@@ -9,13 +9,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import io.restassured.response.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
-import static io.restassured.RestAssured.given;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class UpdateBookAuthorSteps {
@@ -42,6 +40,33 @@ public class UpdateBookAuthorSteps {
         logger.info("Received response: {}", ApiRequest.response.getBody().asString());
     }
 
+    @Then("the response should contain the updated book details:")
+    public void the_response_should_contain_the_updated_book_details(String expectedResponseBody) {
+        logger.info("Validating response body...");
+
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            JsonNode expectedJson = objectMapper.readTree(expectedResponseBody.trim());
+            JsonNode actualJson = objectMapper.readTree(ApiRequest.response.getBody().asString().trim());
+            String prettyExpected = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(expectedJson);
+            String prettyActual = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(actualJson);
+
+            logger.info("Expected Response Body:\n{}", prettyExpected);
+            logger.info("Actual Response Body:\n{}", prettyActual);
+
+            assertEquals(prettyExpected, prettyActual, "Response body does not match expected!");
+        } catch (Exception e) {
+            logger.error("Error parsing or comparing JSON", e);
+            throw new RuntimeException("Error validating JSON response", e);
+        }
+    }
+
+    @When("I update book with non existing id:")
+    public void i_update_book_with_non_existing_id(String body) {
+        ProvideNonExistBookID.nonExistingBookId = nonExistingBookId;
+        ApiRequest.put("/api/books/" + nonExistingBookId, body);
+    }
+
     @When("I send a PUT request with new author name with:")
     public void i_send_a_PUT_request_with_new_author_name_with(String bodyTemplate) {
         int lastCreatedBookId = CreateNewBookSteps.createdBooksIDs.get(CreateNewBookSteps.createdBooksIDs.size() - 1);
@@ -51,11 +76,5 @@ public class UpdateBookAuthorSteps {
 
         logger.info("Sent PUT request to update book with ID: {}", lastCreatedBookId);
         logger.info("Received response: {}", ApiRequest.response.getBody().asString());
-    }
-
-    @When("I update book with non existing id:")
-    public void iUpdateBookWithNonExistingId(String body) {
-        ProvideNonExistBookID.nonExistingBookId = nonExistingBookId;
-        ApiRequest.put("/api/books/" + nonExistingBookId, body);
     }
 }

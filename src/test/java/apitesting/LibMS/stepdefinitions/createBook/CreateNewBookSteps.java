@@ -4,8 +4,11 @@ import apitesting.LibMS.models.Book;
 import apitesting.LibMS.utils.APIConfig;
 import apitesting.LibMS.utils.ApiRequest;
 import apitesting.LibMS.utils.AuthenticationUtil;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.cucumber.datatable.DataTable;
 import io.cucumber.java.AfterAll;
+import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import io.restassured.mapper.ObjectMapperType;
@@ -15,6 +18,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -70,5 +74,21 @@ public class CreateNewBookSteps {
             logger.info("Deleted book with ID: {}", bookId);
         }
         createdBooksIDs.clear();
+    }
+
+    @And("The database contains books with:")
+    public void theDatabaseContainsBooksWith(DataTable dataTable) {
+        logger.info("Adding books to the database...");
+        List<Map<String, String>> books = dataTable.asMaps(String.class, String.class);
+        books.forEach(book -> {
+            ObjectMapper objectMapper = new ObjectMapper();
+            try {
+                String jsonBook = objectMapper.writeValueAsString(book);
+                i_send_a_POST_request_to_with("/api/books", jsonBook);
+            } catch (JsonProcessingException e) {
+                throw new RuntimeException(e);
+            }
+        });
+        logger.info("Books added to the database");
     }
 }

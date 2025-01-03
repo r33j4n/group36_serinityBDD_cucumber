@@ -93,3 +93,24 @@ Feature: Create a book
     }
     """
     Then Response status code must be 400
+    
+  Scenario: Create book with invalid ID format
+    Given I am logged in as an admin
+    When I send a POST request to "/api/books" with:
+    """
+      {
+        "id": abc,
+        "title": "Book 1",
+        "author": "Author 1"
+      }
+      """
+    Then I should receive a 400 response code
+
+  Scenario: Check database has one or more books
+    Given User is logged in
+    And The database contains books with:
+        | id | title | author |
+        | 1  | Test Book 1 | Thushan |
+        | 2  | Test Book 2 | Thushan |
+    When I ask for all books
+    Then I should receive a 200 response code
