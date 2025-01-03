@@ -108,3 +108,22 @@ Feature: Update Book
       }
       """
     Then I should receive a 200 response code
+
+  Scenario: Admin tries to update the book name
+    Given I am logged in as an admin
+    And   I send a POST request to "/api/books" with:
+     """
+      {
+        "title": "Unique Book Title",
+        "author": "Previous Author"
+      }
+      """
+    When I send a PUT request with new author name with:
+      """
+      {
+        "id": 100,
+        "title": "Updated Title",
+        "author": "Previous Author"
+      }
+      """
+    Then I should receive a 200 response code
