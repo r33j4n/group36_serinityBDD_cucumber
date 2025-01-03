@@ -1,12 +1,15 @@
 package apitesting.LibMS.stepdefinitions.deleteBooksSteps;
 
 import apitesting.LibMS.stepdefinitions.getBookByIdSteps.GetBookByIdSteps;
+import apitesting.LibMS.utils.APIConfig;
 import apitesting.LibMS.utils.ApiRequest;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import io.restassured.response.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import static io.restassured.RestAssured.given;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class DeleteBookByIdSteps {
@@ -17,10 +20,4 @@ public class DeleteBookByIdSteps {
         ApiRequest.delete(endpoint);
     }
 
-    @Then("I should receive {int} status code")
-    public void iShouldReceiveStatusCode(int expectedStatusCode) {
-        logger.info("Validating response status code.....");
-        logger.info("Expected Status Code: {}, Actual Status Code: {}", expectedStatusCode, ApiRequest.response.statusCode());
-        assertEquals(expectedStatusCode, ApiRequest.response.statusCode(), "Unexpected status code!");
-    }
 }

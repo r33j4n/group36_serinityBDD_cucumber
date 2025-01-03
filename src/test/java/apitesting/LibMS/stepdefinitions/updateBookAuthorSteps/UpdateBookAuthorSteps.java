@@ -1,6 +1,9 @@
 package apitesting.LibMS.stepdefinitions.updateBookAuthorSteps;
 
+import apitesting.LibMS.stepdefinitions.createBook.CreateNewBookSteps;
 import apitesting.LibMS.utils.APIConfig;
+import apitesting.LibMS.utils.ApiRequest;
+import apitesting.LibMS.utils.ProvideNonExistBookID;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.cucumber.java.en.Given;
@@ -10,47 +13,33 @@ import io.restassured.response.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.List;
+
 import static io.restassured.RestAssured.given;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class UpdateBookAuthorSteps {
+    int nonExistingBookId;
+    public static List<Integer> existingBookIds;
     private static final Logger logger = LoggerFactory.getLogger(UpdateBookAuthorSteps.class);
-    private Response response;
+
 
     @Given("a book exists in the database with ID {int}")
     public void a_book_exists_in_the_database_with_ID(int id) {
-        // Ensure the book exists before updating
-        response = given()
-                .header("Content-Type", "application/json")
-                .get(APIConfig.BASE_URI + "/api/books/" + id);
+        ApiRequest.get("/api/books/" + id);
 
-        if (response.statusCode() == 404) {
+        if (ApiRequest.response.statusCode() == 404) {
             // If the book doesn't exist, create it
             String bookDetails = String.format(
-                    "{\"id\": %d, \"title\": \"Existing Book Title\", \"author\": \"Original Author\"}", id);
-            given()
-                    .header("Content-Type", "application/json")
-                    .body(bookDetails)
-                    .post(APIConfig.BASE_URI + "/api/books");
-            logger.info("Book with ID {} created to satisfy precondition.", id);
+                    "{\"id\": %d, \"title\": \"Book Title1\", \"author\": \" Author1\"}", id);
+            ApiRequest.post("/api/books", bookDetails);
         }
     }
 
     @When("I send a PUT request to {string} with:")
     public void i_send_a_PUT_request_to_with(String endpoint, String body) {
-        logger.info("Sending PUT request to endpoint: {} with body: {}", endpoint, body);
-        response = given()
-                .header("Content-Type", "application/json")
-                .body(body)
-                .put(APIConfig.BASE_URI + endpoint);
-        logger.info("Received response: {}", response.getBody().asString());
-    }
-
-    @Then("I should receive a {int} response  code")
-    public void i_should_receive_a_response_code(int expectedStatusCode) {
-        logger.info("Validating response status code...");
-        logger.info("Expected Status Code: {}, Actual Status Code: {}", expectedStatusCode, response.statusCode());
-        assertEquals(expectedStatusCode, response.statusCode(), "Unexpected status code!");
+        ApiRequest.put(endpoint,body);
+        logger.info("Received response: {}", ApiRequest.response.getBody().asString());
     }
 
     @Then("the response should contain the updated book details:")
@@ -60,7 +49,7 @@ public class UpdateBookAuthorSteps {
         try {
             ObjectMapper objectMapper = new ObjectMapper();
             JsonNode expectedJson = objectMapper.readTree(expectedResponseBody.trim());
-            JsonNode actualJson = objectMapper.readTree(response.getBody().asString().trim());
+            JsonNode actualJson = objectMapper.readTree(ApiRequest.response.getBody().asString().trim());
             String prettyExpected = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(expectedJson);
             String prettyActual = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(actualJson);
 
@@ -73,4 +62,23 @@ public class UpdateBookAuthorSteps {
             throw new RuntimeException("Error validating JSON response", e);
         }
     }
+    @When("I send a PUT request with new author name with:")
+    public void i_send_a_PUT_request_with_new_author_name_with(String bodyTemplate) {
+        int lastCreatedBookId = CreateNewBookSteps.createdBooksIDs.get(CreateNewBookSteps.createdBooksIDs.size() - 1);
+        String updatedBody = bodyTemplate.replace("\"id\": 100", "\"id\": " + lastCreatedBookId);
+        String endpoint = "/api/books/" + lastCreatedBookId;
+        ApiRequest.put(endpoint, updatedBody);
+        logger.info("Sent PUT request to update book with ID: {}", lastCreatedBookId);
+        logger.info("Received response: {}", ApiRequest.response.getBody().asString());
+    }
+
+    @When("I update book with non existing id:")
+    public void iUpdateBookWithNonExistingId(String body) {
+        ProvideNonExistBookID.nonExistingBookId = nonExistingBookId;
+//        ProvideNonExistBookID.provideNonExistBookID();
+//         this.nonExistingBookId = ProvideNonExistBookID.nonExistingBookId;
+        ApiRequest.put("/api/books/" + nonExistingBookId, body);
+    }
+
+
 }

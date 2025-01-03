@@ -6,7 +6,7 @@ Feature: Fetching all books
   Scenario: Accessing getAllBooks api with invalid credentials
     Given I use invalid credentials with username "invalidUser" and password "invalidPass"
     When I send a GET request to "/api/books/" endpoint
-    Then the response code should be 401
+    Then I should receive a 401 response code
 
   Scenario: Database have no books
     Given User is logged in

@@ -6,6 +6,7 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import io.restassured.RestAssured;
+import io.restassured.response.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,11 +26,5 @@ public class GetBooksSteps{
         ApiRequest.get(endpoint);
     }
 
-    @Then("the response code should be {int}")
-    public void the_response_code_should_be(Integer expectedStatusCode) {
-        logger.info("Actual Status code-->{}, Expected Status Code-->{}", ApiRequest.response.statusCode(), expectedStatusCode);
-        assertEquals(expectedStatusCode, ApiRequest.response.statusCode(), "Unexpected status code!");
-
-    }
 
 }
