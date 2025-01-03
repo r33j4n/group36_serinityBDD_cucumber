@@ -30,7 +30,6 @@ public class GetAllBooksSteps {
         List<Map<String, Object>> books = jsonPath.getList("$");
 
         for (Map<String, Object> book : books) {
-            System.out.println("________________________book__________________"+book.get("title"));
             ApiRequest.delete("/api/books/" + book.get("id"));
         }
     }
