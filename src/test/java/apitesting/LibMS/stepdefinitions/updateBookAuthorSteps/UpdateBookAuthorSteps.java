@@ -62,15 +62,6 @@ public class UpdateBookAuthorSteps {
             throw new RuntimeException("Error validating JSON response", e);
         }
     }
-    @When("I send a PUT request with new author name with:")
-    public void i_send_a_PUT_request_with_new_author_name_with(String bodyTemplate) {
-        int lastCreatedBookId = CreateNewBookSteps.createdBooksIDs.get(CreateNewBookSteps.createdBooksIDs.size() - 1);
-        String updatedBody = bodyTemplate.replace("\"id\": 100", "\"id\": " + lastCreatedBookId);
-        String endpoint = "/api/books/" + lastCreatedBookId;
-        ApiRequest.put(endpoint, updatedBody);
-        logger.info("Sent PUT request to update book with ID: {}", lastCreatedBookId);
-        logger.info("Received response: {}", ApiRequest.response.getBody().asString());
-    }
 
     @When("I update book with non existing id:")
     public void iUpdateBookWithNonExistingId(String body) {
