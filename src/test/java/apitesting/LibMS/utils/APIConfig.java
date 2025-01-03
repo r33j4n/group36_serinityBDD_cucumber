@@ -7,4 +7,5 @@ public class APIConfig {
     public static final String GET_URI = API_URI + "/books";
     public static final String GET_BY_ID_URI = API_URI + "/books/{id}";
     public static final String PUT_URI = API_URI + "/books/";
+    public static final String ROOT_URI = "/api/books/";
 }
