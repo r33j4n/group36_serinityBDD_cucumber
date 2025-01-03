@@ -3,6 +3,7 @@ package apitesting.LibMS.stepdefinitions.updateBookAuthorSteps;
 import apitesting.LibMS.stepdefinitions.createBook.CreateNewBookSteps;
 import apitesting.LibMS.utils.APIConfig;
 import apitesting.LibMS.utils.ApiRequest;
+import apitesting.LibMS.utils.ProvideNonExistBookID;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.cucumber.java.en.Given;
@@ -12,10 +13,14 @@ import io.restassured.response.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.List;
+
 import static io.restassured.RestAssured.given;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class UpdateBookAuthorSteps {
+    int nonExistingBookId;
+    public static List<Integer> existingBookIds;
     private static final Logger logger = LoggerFactory.getLogger(UpdateBookAuthorSteps.class);
 
 
@@ -66,4 +71,14 @@ public class UpdateBookAuthorSteps {
         logger.info("Sent PUT request to update book with ID: {}", lastCreatedBookId);
         logger.info("Received response: {}", ApiRequest.response.getBody().asString());
     }
+
+    @When("I update book with non existing id:")
+    public void iUpdateBookWithNonExistingId(String body) {
+        ProvideNonExistBookID.nonExistingBookId = nonExistingBookId;
+//        ProvideNonExistBookID.provideNonExistBookID();
+//         this.nonExistingBookId = ProvideNonExistBookID.nonExistingBookId;
+        ApiRequest.put("/api/books/" + nonExistingBookId, body);
+    }
+
+
 }
