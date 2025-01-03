@@ -43,3 +43,9 @@ Feature: Retrieve a book by ID
         "author": "Piruthuvi"
       }
       """
+
+  Scenario: Get non-existing book by user
+    Given I am logged in as an admin
+    And I send a DELETE request to "/api/books/1"
+    When I send a GET request to "/api/books/1" endpoint
+    Then I should receive a 404 response code
