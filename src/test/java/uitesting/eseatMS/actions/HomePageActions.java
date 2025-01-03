@@ -22,6 +22,11 @@ public class HomePageActions {
     }
 
     @Step
+    public void clickContactUsButton(){
+        homePageObjects.clickContactUs();
+    }
+
+    @Step
     public void clickWhatsappIcon(){
         homePageObjects.clickWhatsappIcon();
     }

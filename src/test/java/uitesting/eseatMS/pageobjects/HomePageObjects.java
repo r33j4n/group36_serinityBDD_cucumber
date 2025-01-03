@@ -25,6 +25,10 @@ public class HomePageObjects extends PageObject {
         $(By.linkText("Send Ticket")).click();
     }
 
+    public void clickContactUs(){
+        $(By.linkText("Contact Us")).click();
+    }
+
     public void clickWhatsappIcon(){
         $(By.cssSelector("a img[src*='whatsapp.png']")).click();
     }
