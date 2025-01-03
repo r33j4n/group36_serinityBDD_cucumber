@@ -1,7 +1,6 @@
 package apitesting.LibMS.stepdefinitions.updateBookAuthorSteps;
 
 import apitesting.LibMS.stepdefinitions.createBook.CreateNewBookSteps;
-import apitesting.LibMS.utils.APIConfig;
 import apitesting.LibMS.utils.ApiRequest;
 import apitesting.LibMS.utils.ProvideNonExistBookID;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -9,13 +8,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import io.restassured.response.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
-import static io.restassured.RestAssured.given;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class UpdateBookAuthorSteps {
@@ -62,6 +59,13 @@ public class UpdateBookAuthorSteps {
             throw new RuntimeException("Error validating JSON response", e);
         }
     }
+
+    @When("I update book with non existing id:")
+    public void iUpdateBookWithNonExistingId(String body) {
+        ProvideNonExistBookID.nonExistingBookId = nonExistingBookId;
+        ApiRequest.put("/api/books/" + nonExistingBookId, body);
+    }
+
     @When("I send a PUT request with new author name with:")
     public void i_send_a_PUT_request_with_new_author_name_with(String bodyTemplate) {
         int lastCreatedBookId = CreateNewBookSteps.createdBooksIDs.get(CreateNewBookSteps.createdBooksIDs.size() - 1);
@@ -71,14 +75,5 @@ public class UpdateBookAuthorSteps {
         logger.info("Sent PUT request to update book with ID: {}", lastCreatedBookId);
         logger.info("Received response: {}", ApiRequest.response.getBody().asString());
     }
-
-    @When("I update book with non existing id:")
-    public void iUpdateBookWithNonExistingId(String body) {
-        ProvideNonExistBookID.nonExistingBookId = nonExistingBookId;
-//        ProvideNonExistBookID.provideNonExistBookID();
-//         this.nonExistingBookId = ProvideNonExistBookID.nonExistingBookId;
-        ApiRequest.put("/api/books/" + nonExistingBookId, body);
-    }
-
 
 }
