@@ -80,3 +80,15 @@ Feature: Create a book
     }
     """
     Then Response status code must be 400
+    
+  Scenario: Create a book with invalid id (non-numeric)
+    Given I am logged in as a user
+    When I send a POST request to "/api/books" with:
+    """
+    {
+      "id": abc,
+      "title": "Book 1",
+      "author": "Author 1"
+    }
+    """
+    Then I should receive a 400 response code
